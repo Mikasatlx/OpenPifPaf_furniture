@@ -27,8 +27,8 @@ limited resolutions. Results also show that our synthetic dataset boosts the per
 Clone this repository in order to use it.
 ```
 # To clone the repository using HTTPS
-git clone https://github.com/vita-epfl/detection-attributes-fields
-cd detection-attributes-fields/
+git clone https://github.com/Mikasatlx/openpifpaf_furniture.git
+cd openpifpaf_furniture
 ```
 
 All dependencies can be found in the `requirements.txt` file.
@@ -37,12 +37,18 @@ All dependencies can be found in the `requirements.txt` file.
 pip3 install -r requirements.txt
 ```
 
+Compile the cpp extension.
+```
+# To compile the cpp extension
+pip3 install -e .
+```
+
 This project has been tested with Python 3.7.7, PyTorch 1.9.1, CUDA 10.2 and OpenPifPaf 0.13.0.
 
 
 ## Dataset
 
-This project uses dataset [JAAD](http://data.nvision2.eecs.yorku.ca/JAAD_dataset/) for training and evaluation.
+This project uses dataset [Keypoint5](http://data.nvision2.eecs.yorku.ca/JAAD_dataset/) and [Pascal3D+](http://data.nvision2.eecs.yorku.ca/JAAD_dataset/) for training and evaluation. 
 
 Please refer to JAAD documentation to download the dataset.
 
