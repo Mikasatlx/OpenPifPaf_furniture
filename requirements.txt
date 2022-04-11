@@ -1,0 +1,25 @@
+importlib_metadata!=3.8.0
+numpy>=1.16
+pysparkling
+python-json-logger
+torch>=1.9.0
+torchvision>=0.10.0
+openpifpaf>=0.13.0
+pillow!=8.3.0
+dataclasses; python_version<"3.7"
+
+matplotlib>=3.3
+pycocotools>=2.0.1
+scipy
+
+cpplint
+nbconvert
+nbstripout
+nbval
+onnx
+onnxruntime
+pylint<2.9.4
+pycodestyle
+pytest
+opencv-python
+thop
