@@ -143,9 +143,36 @@ Arguments should be modified appropriately if needed.
 To visualize all the composite fields of the 5th keypoint, add the following parameters in the command above:
 
 ```
---debug-indices cif_furniture:5 caf_furniture:5 
+--debug-indices cif:5 caf:5 cif_furniture:5 caf_furniture:5 
 --save-all docs/test_images_result/debug_example
 ```
+
+Keypoint confidence:
+![confidence](docs/test_images_result/debug_example/0001.jpeg)
+
+Keypoint classification (channel of bed category):
+![confidence](docs/test_images_result/debug_example/0002.jpeg)
+
+Keypoint classification (channel of chair category):
+![confidence](docs/test_images_result/debug_example/0003.jpeg)
+
+Keypoint regression:
+![confidence](docs/test_images_result/debug_example/0006.jpeg)
+
+Keypoint high resolution map:
+![confidence](docs/test_images_result/debug_example/00013.jpeg)
+
+Association confidence:
+![confidence](docs/test_images_result/debug_example/0007.jpeg)
+
+Association classification (channel of bed category):
+![confidence](docs/test_images_result/debug_example/0008.jpeg)
+
+Association classification (channel of chair category):
+![confidence](docs/test_images_result/debug_example/0009.jpeg)
+
+Association regression:
+![confidence](docs/test_images_result/debug_example/0012.jpeg)
 
 More information about the options can be obtained with the command:
 ```
