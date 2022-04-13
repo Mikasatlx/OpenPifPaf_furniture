@@ -19,6 +19,7 @@ point detection methods on two publicly available datasets (Keypoint-5 and Pasca
 - [Pretrained models](#pretrained-models)
 - [Interfaces](#interfaces)
 - [Training](#training)
+- [Prediction](#prediction)
 - [Evaluation](#evaluation)
 - [Project structure](#project-structure)
 
@@ -124,32 +125,27 @@ Result of a single image is predicted by using subparser `openpifpaf.predict`.
 
 Example of predicting a image using the given checkpoint can be run with the command:
 
-python3 -m openpifpaf.predict test_image/pascal3d/sofa/n03693474_00018832.jpg --checkpoint=./outputs_pascal3d_all/cls_s30_synth/shufflenetv2k30-220109-003625-pascal3d-slurm833352.pkl.epoch150 -o test_image/pascal3d/sofa/test10 --force-complete-pose  --instance-threshold 0.12 --seed-threshold 0.2 --line-width 8 --font-size 0
-
 ```
-python3 -m openpifpaf.eval \
-  --output <path/to/outputs> \
-  --dataset jaad \
-  --jaad-root-dir <path/to/jaad/folder/> \
-  --jaad-subset default \
-  --jaad-testing-set test \
+python3 -m openpifpaf.predict docs/test_images/pascal3d/demo2.jpg \
   --checkpoint <path/to/checkpoint.pt> \
-  --batch-size 1 \
-  --jaad-head-upsample 2 \
-  --jaad-pedestrian-attributes all \
-  --head-consolidation filter_and_extend \
-  --decoder instancedecoder:0 \
-  --decoder-s-threshold 0.2 \
-  --decoder-optics-min-cluster-size 10 \
-  --decoder-optics-epsilon 5.0 \
-  --decoder-optics-cluster-threshold 0.5
+  -o docs/test_images_result/demo \
+  --force-complete-pose-furniture \ (not necessary)
+  --instance-threshold-furniture 0.15 \
+  --seed-threshold-furniture 0.2 \
+  --line-width 8 \
+  --font-size 0 
 ```
+
+![Prediction](docs/test_images_result/demo.png)
+
 Arguments should be modified appropriately if needed.
 
-Using option `--write-predictions`, a json file with predictions can be written as an additional output.
+To visualize all the composite fields of the 5th keypoint, add the following parameters in the command above:
 
-Using option `--show-final-image`, images with predictions displayed on them can be written in the folder given by option `--save-all <path/to/image/folder/>`.
-To also display ground truth annotations, add option `--show-final-ground-truth`.
+```
+--debug-indices cif_furniture:5 caf_furniture:5 
+--save-all docs/test_images_result/debug_example
+```
 
 More information about the options can be obtained with the command:
 ```
