@@ -20,6 +20,7 @@ point detection methods on two publicly available datasets (Keypoint-5 and Pasca
 - [Interfaces](#interfaces)
 - [Training](#training)
 - [Prediction](#prediction)
+- [Video](#video)
 - [Evaluation](#evaluation)
 - [Project structure](#project-structure)
 
@@ -106,7 +107,7 @@ python3 -m openpifpaf.train \
   --lr-decay-epochs 10 \
   --lr-warm-up-epochs 10 \
   --weight-decay 1e-5 \
-  --loader-workers 16 \
+  --loader-workers 12 \
   --furniture-upsample 2 \
   --furniture-extended-scale \
   --furniture-orientation-invariant 0.1 \
@@ -127,7 +128,7 @@ Example of predicting a image using the given checkpoint can be run with the com
 
 ```
 python3 -m openpifpaf.predict docs/test_images/pascal3d/demo2.jpg \
-  --checkpoint <path/to/checkpoint.pt> \
+  --checkpoint <path/to/checkpoint.pkl> \
   -o docs/test_images_result/demo \
   --force-complete-pose-furniture \ (not necessary)
   --instance-threshold-furniture 0.15 \
@@ -160,7 +161,7 @@ Keypoint regression:
 ![confidence](docs/test_images_result/debug_example/0006.jpeg)
 
 Keypoint high resolution map:
-![confidence](docs/test_images_result/debug_example/00013.jpeg)
+![confidence](docs/test_images_result/debug_example/0013.jpeg)
 
 Association confidence:
 ![confidence](docs/test_images_result/debug_example/0007.jpeg)
@@ -176,25 +177,43 @@ Association regression:
 
 More information about the options can be obtained with the command:
 ```
-python3 -m openpifpaf.eval --help
+python3 -m openpifpaf.predict --help
+```
+
+## Video
+
+Result of video stream is predicted by using subparser `openpifpaf.video`.
+
+Example of inferencing video stream using the given checkpoint can be run with the command:
+
+```
+python3 -m openpifpaf.video \
+  --source <path/to/video.mp4> \
+  --checkpoint <path/to/checkpoint.pkl> \
+  --force-complete-pose-furniture \
+  --instance-threshold-furniture 0.35 \
+  --seed-threshold-furniture 0.25 \
+  --video-output \
+  --json-output \
+  --video-fps 15
 ```
 
 ## Evaluation
 
 Evaluation of a checkpoint is done using subparser `openpifpaf.eval`.
 
-Evaluation on JAAD with all attributes can be run with the command:
+Example of evaluating the given checkpoint can be run with the command:
+  --checkpoint=outputs/shufflenetv2k30-220330-095406-pascal3d-slurm915896.pkl.epoch149    --seed-threshold 0.2 --pascal3d-eval-long-edge=0
+
+
 ```
 python3 -m openpifpaf.eval \
   --output <path/to/outputs> \
-  --dataset jaad \
-  --jaad-root-dir <path/to/jaad/folder/> \
-  --jaad-subset default \
-  --jaad-testing-set test \
-  --checkpoint <path/to/checkpoint.pt> \
-  --batch-size 1 \
-  --jaad-head-upsample 2 \
-  --jaad-pedestrian-attributes all \
+  --dataset furniture \
+  --checkpoint <path/to/checkpoint.pkl> \
+  --loader-workers=12 \
+  --force-complete-pose-furniture \
+  --instance-threshold 0.12 \
   --head-consolidation filter_and_extend \
   --decoder instancedecoder:0 \
   --decoder-s-threshold 0.2 \
@@ -230,29 +249,3 @@ openpifpaf_detection_attributes/
     └── (add new models here)
 ```
 
-
-## License
-
-This project is built upon [OpenPifPaf](https://openpifpaf.github.io/intro.html) and shares the AGPL Licence.
-
-This software is also available for commercial licensing via the EPFL Technology Transfer
-Office (https://tto.epfl.ch/, info.tto@epfl.ch).
-
-
-## Citation
-
-If you use this project in your research, please cite the corresponding paper:
-```text
-@article{mordan2021detecting,
-  title={Detecting 32 Pedestrian Attributes for Autonomous Vehicles},
-  author={Mordan, Taylor and Cord, Matthieu and P{\'e}rez, Patrick and Alahi, Alexandre},
-  journal={IEEE Transactions on Intelligent Transportation Systems (T-ITS)},
-  year={2021},
-  doi={10.1109/TITS.2021.3107587}
-}
-```
-
-
-## Acknowledgements
-
-We would like to thank Valeo for funding our work, and Sven Kreiss for the OpenPifPaf Plugin architecture.
