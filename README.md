@@ -16,6 +16,7 @@ point detection methods on two publicly available datasets (Keypoint-5 and Pasca
 
 - [Installation](#installation)
 - [Dataset](#dataset)
+- [Pretrained models](#pretrained-models)
 - [Interfaces](#interfaces)
 - [Training](#training)
 - [Evaluation](#evaluation)
@@ -35,8 +36,8 @@ source venv/bin/activate
 Clone this repository in your work space.
 ```
 # To clone the repository in work_space using HTTPS
-git clone https://github.com/Mikasatlx/openpifpaf_furniture.git
-cd openpifpaf_furniture
+git clone https://github.com/Mikasatlx/openpifpaf-furniture-detection.git
+cd openpifpaf-furniture-detection
 ```
 
 Dependencies can be found in the `requirements.txt` file.
@@ -65,10 +66,12 @@ This project has been tested with Python 3.6, PyTorch 1.9.0, CUDA 10.2 and OpenP
 
 ## Dataset
 
-This project uses dataset [Keypoint5](http://3dinterpreter.csail.mit.edu/), [Pascal3D+](https://cvgl.stanford.edu/projects/pascal3d.html) and our proposed synthetic dataset for training and evaluation. Addtional work has been done to transfrom the original labels into the required COCO format, and combine them together in order to train a model for real-world applications (e.g., mobile furniture indoor localization.) Download the furniture dataset with COCO-style labels through the following links, and : 
+This project uses dataset [Keypoint5](http://3dinterpreter.csail.mit.edu/), [Pascal3D+](https://cvgl.stanford.edu/projects/pascal3d.html) and our proposed synthetic dataset for training and evaluation. Addtional work has been done to transfrom the original labels into the required COCO format, and combine them together in order to train a model for real-world applications (e.g., mobile furniture indoor localization). Download the [furniture dataset]() with COCO-style labels through this link, and put it in the openpifpaf-furniture-detection folder: 
 
-- Please refer to JAAD documentation to download the dataset.
 
+## Pretrained models
+
+Please download the [pretrained models]() from this link.
 
 ## Interfaces
 
@@ -84,34 +87,29 @@ More information can be found in [OpenPifPaf documentation](https://openpifpaf.g
 
 Training is done using subparser `openpifpaf.train`.
 
-Training on JAAD with all attributes can be run with the command:
+Example of training on the furniture dataset can be run with the command:
 ```
 python3 -m openpifpaf.train \
-  --output <path/to/model.pt> \
-  --dataset jaad \
-  --jaad-root-dir <path/to/jaad/folder/> \
-  --jaad-subset default \
-  --jaad-training-set train \
-  --jaad-validation-set val \
-  --log-interval 10 \
-  --val-interval 1 \
-  --epochs 5 \
-  --batch-size 4 \
-  --lr 0.0005 \
-  --lr-warm-up-start-epoch -1 \
-  --weight-decay 5e-4 \
+  --dataset furniture \
+  --basenet shufflenetv2k30 \
+  --furniture-train-annotations ./data-realuse/annotations/realuse_train.json \
+  --furniture-val-annotation ./data-realuse/annotations/realuse_val.json \
+  --furniture-train-image-dir ./data-realuse/images/train \
+  --furniture-val-image-dir ./data-realuse/images/val \
+  --furniture-square-edge 423 \
   --momentum 0.95 \
-  --basenet fn-resnet50 \
-  --pifpaf-pretraining \
-  --detection-bias-prior 0.01 \
-  --jaad-head-upsample 2 \
-  --jaad-pedestrian-attributes all \
-  --fork-normalization-operation power \
-  --fork-normalization-duplicates 35 \
-  --lambdas 7.0 7.0 7.0 7.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 \
-  --attribute-regression-loss l1 \
-  --attribute-focal-gamma 2 \
-  --auto-tune-mtl
+  --b-scale 3 \
+  --clip-grad-value 5 \
+  --epochs 150 \
+  --lr-decay 130 140 \
+  --lr-decay-epochs 10 \
+  --lr-warm-up-epochs 10 \
+  --weight-decay 1e-5 \
+  --loader-workers 16 \
+  --furniture-upsample 2 \
+  --furniture-extended-scale \
+  --furniture-orientation-invariant 0.1 \
+  --batch-size 16
 ```
 Arguments should be modified appropriately if needed.
 
@@ -120,6 +118,43 @@ More information about the options can be obtained with the command:
 python3 -m openpifpaf.train --help
 ```
 
+## Prediction
+
+Result of a single image is predicted by using subparser `openpifpaf.predict`.
+
+Example of predicting a image using the given checkpoint can be run with the command:
+
+python3 -m openpifpaf.predict test_image/pascal3d/sofa/n03693474_00018832.jpg --checkpoint=./outputs_pascal3d_all/cls_s30_synth/shufflenetv2k30-220109-003625-pascal3d-slurm833352.pkl.epoch150 -o test_image/pascal3d/sofa/test10 --force-complete-pose  --instance-threshold 0.12 --seed-threshold 0.2 --line-width 8 --font-size 0
+
+```
+python3 -m openpifpaf.eval \
+  --output <path/to/outputs> \
+  --dataset jaad \
+  --jaad-root-dir <path/to/jaad/folder/> \
+  --jaad-subset default \
+  --jaad-testing-set test \
+  --checkpoint <path/to/checkpoint.pt> \
+  --batch-size 1 \
+  --jaad-head-upsample 2 \
+  --jaad-pedestrian-attributes all \
+  --head-consolidation filter_and_extend \
+  --decoder instancedecoder:0 \
+  --decoder-s-threshold 0.2 \
+  --decoder-optics-min-cluster-size 10 \
+  --decoder-optics-epsilon 5.0 \
+  --decoder-optics-cluster-threshold 0.5
+```
+Arguments should be modified appropriately if needed.
+
+Using option `--write-predictions`, a json file with predictions can be written as an additional output.
+
+Using option `--show-final-image`, images with predictions displayed on them can be written in the folder given by option `--save-all <path/to/image/folder/>`.
+To also display ground truth annotations, add option `--show-final-ground-truth`.
+
+More information about the options can be obtained with the command:
+```
+python3 -m openpifpaf.eval --help
+```
 
 ## Evaluation
 
