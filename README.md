@@ -1,15 +1,14 @@
 # openpifpaf_furniture
-PyTorch implementation of the OpenPifPaf plugin for furniture keypoint detection
+A plugin of OpenPifPaf for furniture pose detection and classification
 
 #### Abstract
 
 > Real-time Multi-Object Furniture Pose Detection and Classification
 >
->We present a multi-object pose detection and classification method of home furniture in cluttered and occluded indoor environments.
->We generalize OpenPifPaf, a field-based method that jointly detects and forms spatio-temporal keypoint associations of a specific object, with the capacity of jointly performing detection and classification of multiple objects in a bottom-up, box-free and real-time manner. We demonstrate that our proposed method outperforms state-of-the-art furniture key-
+> We present a multi-object pose detection and classification method of home furniture in cluttered and occluded indoor environments.
+> We generalize OpenPifPaf, a field-based method that jointly detects and forms spatio-temporal keypoint associations of a specific object, with the capacity of jointly performing detection and classification of multiple objects in a bottom-up, box-free and real-time manner. We demonstrate that our proposed method outperforms state-of-the-art furniture key-
 point detection methods on two publicly available datasets (Keypoint-5 and Pascal3D+).
->We further implement a synthetic dataset to evaluate the performance when target objects have occluded viewpoints or
-limited resolutions. Results also show that our synthetic dataset boosts the performance of detecting real-world instances. All source codes are shared.
+> We further implement a synthetic dataset to evaluate the performance when target objects have occluded viewpoints or limited resolutions. Results also show that our synthetic dataset boosts the performance of detecting real-world instances. All source codes are shared.
 
 ![Example](docs/example.png)
 
@@ -24,7 +23,17 @@ limited resolutions. Results also show that our synthetic dataset boosts the per
 
 ## Installation
 
-Clone this repository in order to use it.
+We encourage to setup a virtual environment in your work space.
+```
+# Create a virtual environment in work_space.
+mkdir work_space
+cd ws_space
+virtualenv -p /usr/bin/python3.6 venv
+source venv/bin/activate
+
+```
+
+Clone this repository.
 ```
 # To clone the repository using HTTPS
 git clone https://github.com/Mikasatlx/openpifpaf_furniture.git
@@ -37,7 +46,7 @@ All dependencies can be found in the `requirements.txt` file.
 pip3 install -r requirements.txt
 ```
 
-Compile the cpp extension.
+Build the cpp extension.
 ```
 # To compile the cpp extension
 pip3 install -e .
