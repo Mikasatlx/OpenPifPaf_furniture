@@ -236,16 +236,4 @@ python3 -m openpifpaf.eval --help
 
 ## Project structure
 
-The code is organized as follows:
-```
-openpifpaf_detection_attributes/
-├── datasets/
-│   ├── jaad/
-│   ├── (+ common files for datasets)
-│   └── (add new datasets here)
-└── models/
-    ├── mtlfields/
-    ├── (+ common files for models)
-    └── (add new models here)
-```
 
