@@ -33,26 +33,35 @@ source venv/bin/activate
 
 ```
 
-Clone this repository.
+Clone this repository in your work space.
 ```
-# To clone the repository using HTTPS
+# To clone the repository in work_space using HTTPS
 git clone https://github.com/Mikasatlx/openpifpaf_furniture.git
 cd openpifpaf_furniture
 ```
 
-All dependencies can be found in the `requirements.txt` file.
+Dependencies can be found in the `requirements.txt` file.
 ```
 # To install dependencies
 pip3 install -r requirements.txt
 ```
 
-Build the cpp extension.
+The decoder is implemented as a C++ extension. Build it before using.
 ```
-# To compile the cpp extension
+# To buile the C++ extension
 pip3 install -e .
 ```
 
-This project has been tested with Python 3.7.7, PyTorch 1.9.1, CUDA 10.2 and OpenPifPaf 0.13.0.
+This OpenPifPaf plugin is equipped with additional capacity of object classification. The required keypoint labels are also in COCO format. If you want to train or evaluate a model on your local machine, unfortunately the coco.py in the pycocotool package which is automatically installed in the virtual environment can not support loading labels with different categories. Replace it with the one provided in this repository. (We only change the operator "&=" in line 195 to "|=" in order to support loading labels with different categories.)
+
+# To replace the original coco.py 
+```
+cp coco.py ../venv/lib/python3.6/site-packages/pycocotools/
+```
+
+Note that this step is not necessary if you train or evaluate a model on the EPFL SCITAS cluster.
+
+This project has been tested with Python 3.6, PyTorch 1.9.0, CUDA 10.2 and OpenPifPaf 0.13.0.
 
 
 ## Dataset
