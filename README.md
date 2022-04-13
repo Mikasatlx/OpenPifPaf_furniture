@@ -30,7 +30,6 @@ mkdir work_space
 cd ws_space
 virtualenv -p /usr/bin/python3.6 venv
 source venv/bin/activate
-
 ```
 
 Clone this repository in your work space.
@@ -52,9 +51,9 @@ The decoder is implemented as a C++ extension. Build it before using.
 pip3 install -e .
 ```
 
-This OpenPifPaf plugin is equipped with additional capacity of object classification. The required keypoint labels are also in COCO format. If you want to train or evaluate a model on your local machine, unfortunately the coco.py in the pycocotool package which is automatically installed in the virtual environment can not support loading labels with different categories. Replace it with the one provided in this repository. (We only change the operator "&=" in line 195 to "|=" in order to support loading labels with different categories.)
+This OpenPifPaf plugin is equipped with additional capacity of object classification. The required keypoint labels are also in COCO format. If you want to train or evaluate a model on your local machine, unfortunately the coco.py in the pycocotool package which is automatically installed in the virtual environment can not support loading labels with different categories. Replace it with the one provided in this repository. 
+(We only change the operator "&=" in line 195 to "|=" in order to support loading labels with different categories.)
 
-# To replace the original coco.py 
 ```
 cp coco.py ../venv/lib/python3.6/site-packages/pycocotools/
 ```
@@ -66,9 +65,9 @@ This project has been tested with Python 3.6, PyTorch 1.9.0, CUDA 10.2 and OpenP
 
 ## Dataset
 
-This project uses dataset [Keypoint5](http://data.nvision2.eecs.yorku.ca/JAAD_dataset/) and [Pascal3D+](http://data.nvision2.eecs.yorku.ca/JAAD_dataset/) for training and evaluation. 
+This project uses dataset [Keypoint5](http://3dinterpreter.csail.mit.edu/), [Pascal3D+](https://cvgl.stanford.edu/projects/pascal3d.html) and our proposed synthetic dataset for training and evaluation. Addtional work has been done to transfrom the original labels into the required COCO format, and combine them together in order to train a model for real-world applications (e.g., mobile furniture indoor localization.) Download the furniture dataset with COCO-style labels through the following links, and : 
 
-Please refer to JAAD documentation to download the dataset.
+- Please refer to JAAD documentation to download the dataset.
 
 
 ## Interfaces
