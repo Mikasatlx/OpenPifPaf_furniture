@@ -94,10 +94,10 @@ Example of training on the furniture dataset can be run with the command:
 python3 -m openpifpaf.train \
   --dataset furniture \
   --basenet shufflenetv2k30 \
-  --furniture-train-annotations ./data-realuse/annotations/realuse_train.json \
-  --furniture-val-annotation ./data-realuse/annotations/realuse_val.json \
-  --furniture-train-image-dir ./data-realuse/images/train \
-  --furniture-val-image-dir ./data-realuse/images/val \
+  --furniture-train-annotations ./data-furniture/annotations/realuse_train.json \
+  --furniture-val-annotation ./data-furniture/annotations/realuse_val.json \
+  --furniture-train-image-dir ./data-furniture/images/train \
+  --furniture-val-image-dir ./data-furniture/images/val \
   --furniture-square-edge 423 \
   --momentum 0.95 \
   --b-scale 3 \
@@ -200,33 +200,23 @@ python3 -m openpifpaf.video \
 
 ## Evaluation
 
-Evaluation of a checkpoint is done using subparser `openpifpaf.eval`.
+A checkpoint is evaluated by using subparser `openpifpaf.eval`.
 
 Example of evaluating the given checkpoint can be run with the command:
-  --checkpoint=outputs/shufflenetv2k30-220330-095406-pascal3d-slurm915896.pkl.epoch149    --seed-threshold 0.2 --pascal3d-eval-long-edge=0
-
-
+     
 ```
-python3 -m openpifpaf.eval \
+CUDA_VISIBLE_DEVICES=0 python3 -m openpifpaf.eval \
   --output <path/to/outputs> \
   --dataset furniture \
   --checkpoint <path/to/checkpoint.pkl> \
   --loader-workers=12 \
   --force-complete-pose-furniture \
-  --instance-threshold 0.12 \
-  --head-consolidation filter_and_extend \
-  --decoder instancedecoder:0 \
-  --decoder-s-threshold 0.2 \
-  --decoder-optics-min-cluster-size 10 \
-  --decoder-optics-epsilon 5.0 \
-  --decoder-optics-cluster-threshold 0.5
+  --instance-threshold-furniture 0.12 \
+  --seed-threshold-furniture 0.2 \
+  --furniture-eval-long-edge 0 
 ```
 Arguments should be modified appropriately if needed.
 
-Using option `--write-predictions`, a json file with predictions can be written as an additional output.
-
-Using option `--show-final-image`, images with predictions displayed on them can be written in the folder given by option `--save-all <path/to/image/folder/>`.
-To also display ground truth annotations, add option `--show-final-ground-truth`.
 
 More information about the options can be obtained with the command:
 ```
@@ -235,5 +225,31 @@ python3 -m openpifpaf.eval --help
 
 
 ## Project structure
-
-
+```
+openpifpaf_furniture_detection/
+├── openpifpaf_furniture/
+│   ├── csrc/
+│   ├── decoder/
+│   ├── encoder/
+│   ├── furniture/
+│   ├── network/
+│   ├── show/
+│   ├── visualizer/
+│   ├── annotation.py
+│   ├── cpp_extension.py
+│   ├── headmeta.py
+│   └── __init__.py
+├── docs/
+│   ├── test_images/
+│   ├── test_images_result/
+│   ├── test_videos/
+│   └── (add other test examples here)
+├── data-furniture/
+│   ├── annotations/ 
+│   └── images/
+│       ├── train/
+│       └── val/
+│       └── test/
+└── outputs/
+    └── (add pretrained models here)
+```
