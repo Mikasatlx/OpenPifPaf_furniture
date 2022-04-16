@@ -128,7 +128,7 @@ Example of predicting a image using the given checkpoint can be run with the com
 
 ```
 python3 -m openpifpaf.predict docs/test_images/pascal3d/demo2.jpg \
-  --checkpoint <path/to/checkpoint.pkl> \
+  --checkpoint ./outputs_furniture/shufflenetv2k30-220413-065600-furniture-slurm934377.pkl.epoch149 \
   -o docs/test_images_result/demo \
   --force-complete-pose-furniture \ 
   --instance-threshold-furniture 0.15 \
@@ -188,8 +188,8 @@ Example of inferencing video stream using the given checkpoint can be run with t
 
 ```
 python3 -m openpifpaf.video \
-  --source <path/to/video.mp4> \
-  --checkpoint <path/to/checkpoint.pkl> \
+  --source ./docs/test_videos/v1.mp4 \
+  --checkpoint ./outputs_furniture/shufflenetv2k30-220413-065600-furniture-slurm934377.pkl.epoch149 \
   --force-complete-pose-furniture \
   --instance-threshold-furniture 0.4 \
   --seed-threshold-furniture 0.05 \
@@ -206,9 +206,8 @@ Example of evaluating the given checkpoint can be run with the command:
      
 ```
 CUDA_VISIBLE_DEVICES=0 python3 -m openpifpaf.eval \
-  --output <path/to/outputs> \
   --dataset furniture \
-  --checkpoint <path/to/checkpoint.pkl> \
+  --checkpoint ./outputs_furniture/shufflenetv2k30-220413-065600-furniture-slurm934377.pkl.epoch149 \
   --loader-workers=12 \
   --force-complete-pose-furniture \
   --instance-threshold-furniture 0.15 \
