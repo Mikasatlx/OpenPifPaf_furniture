@@ -249,6 +249,6 @@ openpifpaf_furniture_detection/
 │       ├── train/
 │       └── val/
 │       └── test/
-└── outputs/
+└── outputs_furniture/
     └── (add pretrained models here)
 ```
