@@ -68,12 +68,12 @@ This project has been tested with Python 3.6, PyTorch 1.9.0, CUDA 10.2 and OpenP
 
 ## Dataset
 
-This project uses dataset [Keypoint5](http://3dinterpreter.csail.mit.edu/), [Pascal3D+](https://cvgl.stanford.edu/projects/pascal3d.html) and our proposed synthetic dataset for training and evaluation. Addtional work has been done to transfrom the original labels into the required COCO format, and combine them together in order to train a model for real-world applications (e.g., mobile furniture indoor localization). Download the [furniture dataset]() with COCO-style labels through this link, and put it in the openpifpaf-furniture-detection folder: 
+This project uses dataset [Keypoint5](http://3dinterpreter.csail.mit.edu/), [Pascal3D+](https://cvgl.stanford.edu/projects/pascal3d.html) and our proposed synthetic dataset for training and evaluation. Addtional work has been done to transfrom the original labels into the required COCO format, and combine them together in order to train a model for real-world applications (e.g., mobile furniture indoor localization). Download the [furniture dataset](https://figshare.com/s/8c312d037ba9a06aeec5) with COCO-style labels through this link, and put it in the openpifpaf-furniture-detection folder: 
 
 
 ## Pretrained models
 
-Please download the [pretrained models]() from this link.
+Please download the [pretrained models](https://figshare.com/s/4872fecfcfca56c43713) from this link.
 
 ## Interfaces
 
@@ -130,7 +130,7 @@ Example of predicting a image using the given checkpoint can be run with the com
 python3 -m openpifpaf.predict docs/test_images/pascal3d/demo2.jpg \
   --checkpoint <path/to/checkpoint.pkl> \
   -o docs/test_images_result/demo \
-  --force-complete-pose-furniture \ (not necessary)
+  --force-complete-pose-furniture \ 
   --instance-threshold-furniture 0.15 \
   --seed-threshold-furniture 0.2 \
   --line-width 8 \
@@ -191,8 +191,8 @@ python3 -m openpifpaf.video \
   --source <path/to/video.mp4> \
   --checkpoint <path/to/checkpoint.pkl> \
   --force-complete-pose-furniture \
-  --instance-threshold-furniture 0.35 \
-  --seed-threshold-furniture 0.25 \
+  --instance-threshold-furniture 0.4 \
+  --seed-threshold-furniture 0.05 \
   --video-output \
   --json-output \
   --video-fps 15
@@ -211,7 +211,7 @@ CUDA_VISIBLE_DEVICES=0 python3 -m openpifpaf.eval \
   --checkpoint <path/to/checkpoint.pkl> \
   --loader-workers=12 \
   --force-complete-pose-furniture \
-  --instance-threshold-furniture 0.12 \
+  --instance-threshold-furniture 0.15 \
   --seed-threshold-furniture 0.2 \
   --furniture-eval-long-edge 0 
 ```
