@@ -29,7 +29,7 @@ point detection methods on two publicly available datasets (Keypoint-5 and Pasca
 We encourage to setup a virtual environment in your work space.
 ```
 # Create a virtual environment in work_space.
-mkdir work_space
+mkdir ws_space
 cd ws_space
 virtualenv -p /usr/bin/python3.6 venv
 source venv/bin/activate
